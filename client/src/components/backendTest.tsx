@@ -27,8 +27,8 @@ function BackendTest() {
 
   return (
     <div>
-      <h1>Backend test</h1>
-      {data ? <p>{data.message}</p> : <p>{error}</p>}
+      <h1 className="text-red-500 ">Backend test</h1>
+      {data ? <p className="text-blue-600">{data.message}</p> : <p>{error}</p>}
     </div>
   )
 }
