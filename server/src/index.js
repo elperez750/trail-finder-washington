@@ -1,12 +1,15 @@
-import express, { Request, Response } from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import trailsRouter from './routes/trailsRoute';
-
+const cors = require('cors');
+const dotenv = require('dotenv');
+const trailsRouter = require('./routes/trailsRoute');
+const usersRouter = require('./routes/usersRoute');
+const connectDB = require('./database');
+const express = require('express');
 // Load environment variables
 dotenv.config();
 
+
 const app = express();
+connectDB();
 const PORT = process.env.PORT || 8000;
 
 // Middleware
@@ -14,7 +17,7 @@ app.use(express.json());
 app.use(cors());
 
 // Root route
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (req, res) => {
     res.send("Hello, TypeScript with Express");
 });
 
@@ -23,8 +26,10 @@ const apiRouter = express.Router();
 app.use('/api', apiRouter);
 
 apiRouter.use('/trails', trailsRouter);
+apiRouter.use('/users', usersRouter);
 
-apiRouter.get('/test', (req: Request, res: Response) => {
+
+apiRouter.get('/test', (req, res) => {
     res.json({ message: 'Hello from the backend' });
 });
 
@@ -33,4 +38,4 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
-export default apiRouter;
+module.exports = apiRouter;
