@@ -1,7 +1,7 @@
 const cors = require('cors');
 const dotenv = require('dotenv');
 const trailsRouter = require('./routes/trailsRoute');
-const usersRouter = require('./routes/usersRoute');
+const authRouter = require('./routes/authRoute');
 const connectDB = require('./database');
 const express = require('express');
 // Load environment variables
@@ -26,7 +26,7 @@ const apiRouter = express.Router();
 app.use('/api', apiRouter);
 
 apiRouter.use('/trails', trailsRouter);
-apiRouter.use('/users', usersRouter);
+apiRouter.use('/auth', authRouter);
 
 
 apiRouter.get('/test', (req, res) => {

@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
-const SignInForm: React.FC = () => {
+const SignUpForm: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [comfirmedPassword, setComfirmedPassword] = useState<string>("");
-  const [showComfirmedPassword, setShowComfirmedPassword] =
-    useState<boolean>(false);
+  const [showComfirmedPassword, setShowComfirmedPassword] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [passwordMatchMessage, setPasswordMatchMessage] = useState<
-    string | null
-  >(null);
+  const [passwordMatchMessage, setPasswordMatchMessage] = useState<string | null>(null);
 
   const handlePasswordChange = (value: string) => {
     setComfirmedPassword(value);
@@ -31,7 +29,7 @@ const SignInForm: React.FC = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8000/api/users/register", {
+      const response = await axios.post("http://localhost:8000/api/auth/register", {
         name,
         email,
         password,
@@ -54,7 +52,7 @@ const SignInForm: React.FC = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-xl p-8">
+      <div className="w-full bg-white max-w-md rounded-lg shadow-xl p-8">
         <h1 className="font-bold text-emerald-800 text-2xl mb-6 text-center">
           Sign Up for Washington Trails
         </h1>
@@ -170,9 +168,9 @@ const SignInForm: React.FC = () => {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Already have an account?{" "}
-            <a href="#" className="text-emerald-600 hover:underline">
+            <Link to="/login" className="text-emerald-600 hover:underline">
               Sign in
-            </a>
+            </Link>
           </p>
         </div>
       </div>
@@ -180,4 +178,4 @@ const SignInForm: React.FC = () => {
   );
 };
 
-export default SignInForm;
+export default SignUpForm;

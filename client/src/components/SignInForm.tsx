@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const SignInForm: React.FC = () => {
   const [email, setEmail] = useState<string>('')
@@ -71,17 +72,13 @@ const SignInForm: React.FC = () => {
             Sign in
           </button>
         </form>
-        <div className="mt-4 text-center">
-          <a href="#" className="text-sm text-emerald-600 hover:underline">
-            Forgot password?
-          </a>
-        </div>
+        
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Don't have an account?{' '}
-            <a href="#" className="text-emerald-600 hover:underline">
-              Sign up
-            </a>
+            <Link to="/register" className="text-emerald-600 hover:underline">
+              Sign up here
+            </Link>
           </p>
         </div>
       </div>
