@@ -1,16 +1,31 @@
 import React, { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const SignInForm: React.FC = () => {
+  const {login} = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [,setMessage] = useState<string>('')
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     // Here you would typically handle the sign-in logic
-    console.log('Sign-in attempted with:', { email, password })
+    try{
+      const response = await axios.post('http://localhost:8000/api/auth/login', { email, password })
+      const { token, user } = response.data;
+      login(token, user)
+      navigate("/");
+
+    } catch(error: any) {
+      setMessage(error.response?.data?.msg || 'An error occurred')
+    }
+    
   }
 
   return (

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUpForm: React.FC = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -35,9 +36,10 @@ const SignUpForm: React.FC = () => {
         password,
       });
       console.log(response.data);
-
+      navigate("/login");
       if (response.status === 201) {
         console.log("User created successfully");
+
         setPasswordMatchMessage(null);
         console.log("Sign-up attempted with:", { name, email, password });
       }

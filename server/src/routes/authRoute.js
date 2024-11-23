@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const authRouter = express.Router();
 const SECRET_KEY = process.env.SECRET_KEY;
+console.log(SECRET_KEY);
 
 
 authRouter.post('/register', async (req, res) => {
@@ -49,7 +50,7 @@ authRouter.post('/login', async (req, res) => {
             res.status(400).json({msg: 'User does not exist'});
         }
         const isMatch = await bcrypt.compare(password, user.password);
-        if (! isMatch) {
+        if (!isMatch) {
             res.status(400).json({msg: 'Invalid credentials'});
         }
         const token = jwt.sign({id: user._id}, SECRET_KEY, {expiresIn: '1h'});
@@ -58,6 +59,7 @@ authRouter.post('/login', async (req, res) => {
 
     
 catch(error) {
+    console.error('Error:', error);
     res.status(500).json(({ error: 'Internal server error'}))
 }
 
