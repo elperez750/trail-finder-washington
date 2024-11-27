@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const authRouter = express.Router();
 const SECRET_KEY = process.env.SECRET_KEY;
-console.log(SECRET_KEY);
+
 
 
 authRouter.post('/register', async (req, res) => {

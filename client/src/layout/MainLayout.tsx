@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom"; // Import Outlet for nested routing
+import Footer from "../components/Footer"; // Import Footer component
 
 const MainLayout: React.FC = () => {
   return (
@@ -10,6 +11,8 @@ const MainLayout: React.FC = () => {
       <main className="flex-grow">
         <Outlet /> {/* This will render the nested routes */}
       </main>
+
+      <Footer /> 
     </div>
   );
 };
