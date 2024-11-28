@@ -1,25 +1,28 @@
-import React, { useState } from 'react'
-import { Search } from 'lucide-react'
+import React, { useState, useEffect } from 'react';
+import { Search } from 'lucide-react';
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState('');
+  
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSearch(searchQuery)
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    onSearch(searchQuery);
+
   }
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value)
-    console.log(e.target.value)
-  }
+    setSearchQuery(e.target.value);
+  };
 
-    return (
-    <form onSubmit={handleSearch} className="w-full border-black ">
+
+
+  return (
+    <form onSubmit={(e) => e.preventDefault()} className="w-full border-black">
       <div className="container mx-auto flex items-center">
         <input
           type="text"
@@ -30,6 +33,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         />
         <button
           type="submit"
+          onClick={(e) => handleSubmit(e)}
           className="bg-stone-800 text-white py-2 px-6 rounded-r-md hover:bg-stone-700 focus:outline-none focus:ring-2 focus:ring-stone-500"
         >
           <Search className="h-5 w-5 inline-block mr-2" />
@@ -37,7 +41,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         </button>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;

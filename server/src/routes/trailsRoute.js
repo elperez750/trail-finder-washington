@@ -25,20 +25,10 @@ const getRandomTrail = async () => {
 
 
 
-const getFilteredTrails = async (query) => {
-    try{
-        const filteredTrails = await Hike.find({name: query});
-        return filteredTrails;
-    }
-    catch(err){
-        console.error('Error:', err);
-        throw new Error('Error getting filtered trails');
-    }
-}
-
 
 trailsRouter.get('/random-trails', async (req, res) => {
     console.log('Route /random-trails hit'); // Debug log
+
 
     try{
         trails = await getRandomTrail();
@@ -53,10 +43,28 @@ trailsRouter.get('/random-trails', async (req, res) => {
 })
 
 
+
+
 trailsRouter.get('/filtered-trails', async (req, res) => {  
-    const filteredQuery = await getFilteredTrails(req.query);
-    console.log(filteredQuery);
-    res.status(200).json(filteredQuery);
+    try{
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 12;
+
+        const skip = (page-1) * limit
+
+
+        const name = req.query.name;
+
+        const filter = name? { name: {$regex: name, $options: 'i'}} : {};
+        const filteredTrails = await Hike.find(filter).skip(skip).limit(limit);
+        const totalTrails = await Hike.countDocuments(filter);
+        res.status(200).json({trails: filteredTrails, totalPages : Math.ceil(totalTrails / limit), currentPage: page});
+    }
+    catch(err){
+        console.error('Error:', err);
+        res.status(500).json({msg: 'Internal Server Error'});
+    }
+   
 
 })
 
