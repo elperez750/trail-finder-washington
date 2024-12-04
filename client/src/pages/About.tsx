@@ -1,4 +1,3 @@
-import React from 'react'
 
 const About = () => {
   return (
@@ -14,7 +13,7 @@ const About = () => {
             height={200}
             className="rounded-full mx-auto mb-4"
           />
-          <h2 className="text-xl font-semibold text-emerald-700">John Doe</h2>
+          <h2 className="text-xl font-semibold text-emerald-700">Elliott Perez Ramos</h2>
           <p className="text-gray-600 italic">Creator of Washington Trails</p>
         </div>
 
