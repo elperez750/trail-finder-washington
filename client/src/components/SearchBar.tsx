@@ -2,32 +2,26 @@ import React, { useState } from 'react';
 import { Search, ChevronDown } from 'lucide-react';
 
 interface SearchBarProps {
-  onSearch: (query: string, filters: SearchFilters) => void;
+  onSearch: (query: string, length: string) => void;
 }
 
-interface SearchFilters {
-  length: string;
-  difficulty: string;
-  location: string;
-}
+
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filters, setFilters] = useState<SearchFilters>({
-    length: '',
-    difficulty: '',
-    location: '',
-  });
+  const [length, setLength] = useState('');
+
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSearch(searchQuery, filters);
+    onSearch(searchQuery, length);
   };
 
-  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFilters(prevFilters => ({ ...prevFilters, [name]: value }));
+  const handleLengthChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+    const { value } = e.target;
+    console.log(value);
+    setLength(value);
   };
 
   return (
@@ -67,44 +61,15 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
             <select
               id="length"
               name="length"
-              value={filters.length}
-              onChange={handleFilterChange}
+              value={length}
+              onChange={handleLengthChange}
               className="w-full p-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
             >
-              <option value="">Any</option>
+              <option value="any" >Any</option>
               <option value="short">Short (&lt;5 miles)</option>
               <option value="medium">Medium (5-10 miles)</option>
               <option value="long">Long (&gt;10 miles)</option>
             </select>
-          </div>
-          
-          <div>
-            <label htmlFor="difficulty" className="block text-sm font-medium text-stone-700 mb-1">Difficulty Level</label>
-            <select
-              id="difficulty"
-              name="difficulty"
-              value={filters.difficulty}
-              onChange={handleFilterChange}
-              className="w-full p-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
-            >
-              <option value="">Any</option>
-              <option value="easy">Easy</option>
-              <option value="moderate">Moderate</option>
-              <option value="hard">Hard</option>
-            </select>
-          </div>
-          
-          <div>
-            <label htmlFor="location" className="block text-sm font-medium text-stone-700 mb-1">Location</label>
-            <input
-              type="text"
-              id="location"
-              name="location"
-              value={filters.location}
-              onChange={handleFilterChange}
-              placeholder="Enter region or zip code"
-              className="w-full p-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
-            />
           </div>
         </div>
       )}

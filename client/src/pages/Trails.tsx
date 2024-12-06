@@ -20,14 +20,15 @@ const Trails: React.FC = () => {
   const [trails, setTrails] = useState<Trail[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState({ searchQuery: "", length: "" });
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchTrails = async (searchQuery: string, currentPage: number) => {
+  const fetchTrails = async (searchQuery: string, length: string, currentPage: number) => {
+    console.log(length)
     setIsLoading(true);
     try {
       const response = await axios.get<{ trails: Trail[]; totalPages: number }>(
-        `http://localhost:8000/api/trails/filtered-trails?name=${searchQuery}&page=${currentPage}`
+        `http://localhost:8000/api/trails/filtered-trails?name=${searchQuery}&length=${length}&page=${currentPage}`
       );
       setTrails(response.data.trails);
       setTotalPages(response.data.totalPages);
@@ -39,11 +40,11 @@ const Trails: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchTrails(search, page);
+    fetchTrails(search.searchQuery, search.length, page);
   }, [page, search]);
 
-  const handleSearch = (query: string) => {
-    setSearch(query);
+  const handleSearch = (query: string, length: string) => {
+    setSearch({ searchQuery: query, length: length });
     setPage(1);
   };
 

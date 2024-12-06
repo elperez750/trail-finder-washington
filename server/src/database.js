@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const connectDB = async () => {
     try {
       await mongoose.connect('mongodb://localhost:27017/trailsapp', {
+        useNewUrlParser: true, // Ensures proper connection parsing
+            useUnifiedTopology: true, // Uses the latest server discovery and monitoring engine
+            serverSelectionTimeoutMS: 60000, // Timeout after 60 seconds for server selection
+            socketTimeoutMS: 60000, // Timeout after 60 seconds for socket inactivity
+            maxPoolSize: 50, // Increases the number of concurrent database connections
       });
       console.log('MongoDB Connected');
     } catch (err) {
