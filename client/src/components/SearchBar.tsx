@@ -9,7 +9,7 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [length, setLength] = useState('');
+  const [length, setLength] = useState('any');
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
@@ -20,7 +20,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 
   const handleLengthChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { value } = e.target;
-    console.log(value);
     setLength(value);
   };
 

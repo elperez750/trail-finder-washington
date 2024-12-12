@@ -11,6 +11,8 @@ import RegisterPage from './pages/Register';
 import MainLayout from './layout/MainLayout';
 import SignInForm from './components/SignInForm';
 import SignUpForm from './components/SignUpForm';
+import IndividualTrailPage from './pages/IndividualTrail';
+
 
 function App() {
   return (
@@ -26,11 +28,13 @@ function App() {
           <Route path="/community" element={<Community />} />
           <Route path="/about" element={<About />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/trail/:id" element={<IndividualTrailPage />} />
         </Route>
 
         {/* Separate Routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        
       </Routes>
     </Router>
   );

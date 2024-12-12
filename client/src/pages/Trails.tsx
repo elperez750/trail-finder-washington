@@ -4,17 +4,8 @@ import SearchBar from "../components/SearchBar";
 import TrailCard from "../components/TrailCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import NoTrailsFound from "../components/NoTrailsFound";
-interface Trail {
-  id: number;
-  name: string;
-  description: string;
-  elevation: string;
-  highestPoint: string;
-  imageUrl: string;
-  length: string;
-  link: string;
-  location: string;
-}
+import { Trail } from "../types/trail";
+
 
 const Trails: React.FC = () => {
   const [trails, setTrails] = useState<Trail[]>([]);
@@ -23,8 +14,9 @@ const Trails: React.FC = () => {
   const [search, setSearch] = useState({ searchQuery: "", length: "" });
   const [isLoading, setIsLoading] = useState(false);
 
+
+  
   const fetchTrails = async (searchQuery: string, length: string, currentPage: number) => {
-    console.log(length)
     setIsLoading(true);
     try {
       const response = await axios.get<{ trails: Trail[]; totalPages: number }>(
@@ -38,6 +30,11 @@ const Trails: React.FC = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchTrails("", "any", page);
+  }, []);
+
 
   useEffect(() => {
     fetchTrails(search.searchQuery, search.length, page);
@@ -95,8 +92,10 @@ const Trails: React.FC = () => {
         ) : (
           <>
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+             
               {trails.map((trail: Trail) => (
-                <TrailCard key={trail.id} trail={trail} />
+                <TrailCard key={trail._id} trail={trail} />
+                
               ))}
             </div>
 

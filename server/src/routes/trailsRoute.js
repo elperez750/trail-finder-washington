@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const Hike = require('../models/trailModel');
+const fetchTrailDetails = require('../getTrailDetails');
 
 
 const trailsRouter = Router();
@@ -12,7 +13,6 @@ const getRandomTrail = async () => {
             { $match: { length: { $exists: true, $ne: "" }}},
             
             { $sample: { size: 12 }  }]);
-        console.log(randomTrails);
         return randomTrails;
     }
     catch(err){
@@ -24,14 +24,33 @@ const getRandomTrail = async () => {
 
 
 
+trailsRouter.get('/individual-trail', async (req, res) => {
+    const { link } = req.query
+    if (!link) {
+        return res.status(400).json({ error: 'Trail link is required' });
+      }
+
+    try{
+        const trail = await fetchTrailDetails(link);
+        
+        res.status(200).json(trail);
+
+    }
+    catch(err){
+        console.error('Error:', err);
+        res.status(500).json({msg: 'Internal Server Error'});
+    }
+
+})
+
+
+
 
 trailsRouter.get('/random-trails', async (req, res) => {
-    console.log('Route /random-trails hit'); // Debug log
 
 
     try{
         trails = await getRandomTrail();
-        console.log(trails)
         res.status(200).json(trails);
     }
     catch(err){
