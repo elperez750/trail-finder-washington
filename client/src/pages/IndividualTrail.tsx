@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { MapPin, Mountain, AlertTriangle, ArrowLeft } from "lucide-react";
-
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { LatLngExpression } from "leaflet";
+import "leaflet/dist/leaflet.css";
 const IndividualTrailPage: React.FC = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
 
+
+  
   const trailDetails = location.state?.trailDetails;
+  const center: LatLngExpression = [trailDetails?.latitude, trailDetails?.longitude];
   const name = location.state?.name;
   const image = location.state?.image;
   const length = location.state?.length;
   const elevationGain = location.state?.elevationGain;
   const location_name = location.state?.location_name;
+
 
   useEffect(() => {
     if (trailDetails) {
@@ -47,6 +53,22 @@ const IndividualTrailPage: React.FC = () => {
       </div>
     );
   }
+
+  const Map = () => (
+    <MapContainer
+      center={center}
+      zoom={13}
+      style={{ height: "400px", width: "100%", borderRadius: "0.5rem", marginTop: "2rem" }}
+    >
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+      />
+      <Marker position={center}>
+        <Popup>Welcome to Seattle!</Popup>
+      </Marker>
+    </MapContainer>
+  );
 
   return (
     <div className="bg-stone-100 min-h-screen">
@@ -125,6 +147,9 @@ const IndividualTrailPage: React.FC = () => {
             )}
           </ul>
         </div>
+
+
+        <Map />
 
         <div className="mt-8">
           <Link

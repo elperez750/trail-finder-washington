@@ -8,21 +8,27 @@ interface SearchBarProps {
 
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+  //Set the defaults for searchQuery and length
   const [searchQuery, setSearchQuery] = useState('');
   const [length, setLength] = useState('any');
 
+  //Whether the filter menu is open or not
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
+  //When the form is submitted, call the onSearch function with the searchQuery and length
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSearch(searchQuery, length);
   };
 
+  //When the length changes, update the length state
   const handleLengthChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { value } = e.target;
     setLength(value);
   };
 
+
+  
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
       <div className="relative flex items-center mb-4">

@@ -22,6 +22,7 @@ const Trails: React.FC = () => {
       const response = await axios.get<{ trails: Trail[]; totalPages: number }>(
         `http://localhost:8000/api/trails/filtered-trails?name=${searchQuery}&length=${length}&page=${currentPage}`
       );
+
       setTrails(response.data.trails);
       setTotalPages(response.data.totalPages);
     } catch (err) {

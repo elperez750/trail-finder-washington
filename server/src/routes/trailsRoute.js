@@ -82,11 +82,11 @@ trailsRouter.get('/filtered-trails', async (req, res) => {
         else if (length == "medium") {
             filter = name? {name: {$regex: name, $options: 'i'}, convertedLength: {$gte: 5, $lt: 10}} : {convertedLength: {$gte: 5, $lt: 10}};
         }
-        else if (length == "any") {
-            filter = name? {name: {$regex: name, $options: 'i'}} : {};
+        else if (length == "long") {
+            filter = name? {name: {$regex: name, $options: 'i'}, convertedLength: {$gte: 10}} : {convertedLength: {$gte: 10}};
         }
         else {
-            filter = name? {name: {$regex: name, $options: 'i'}, convertedLength: {$gte: 10}} : {convertedLength: {$gte: 10}};
+            filter = name? {name: {$regex: name, $options: 'i'}} : {};
         }
 
         const filteredTrails = await Hike.find(filter).skip(skip).limit(limit);
