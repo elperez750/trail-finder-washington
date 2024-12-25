@@ -4,10 +4,11 @@ import { MapPin, Mountain, AlertTriangle, ArrowLeft } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
+import Comments  from "../components/Comments";
+
 const IndividualTrailPage: React.FC = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
-
 
   
   const trailDetails = location.state?.trailDetails;
@@ -65,7 +66,7 @@ const IndividualTrailPage: React.FC = () => {
         attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
       />
       <Marker position={center}>
-        <Popup>Welcome to Seattle!</Popup>
+        <Popup>{name}</Popup>
       </Marker>
     </MapContainer>
   );
@@ -150,6 +151,9 @@ const IndividualTrailPage: React.FC = () => {
 
 
         <Map />
+
+
+        <Comments />
 
         <div className="mt-8">
           <Link
