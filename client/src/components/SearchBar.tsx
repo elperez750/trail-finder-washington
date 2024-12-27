@@ -36,7 +36,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
           type="text"
           placeholder="Search trails..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => setSearchQuery(e.target.value)} 
           className="w-full py-3 px-5 pr-12 rounded-full bg-white border-2 border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-300 text-stone-800 placeholder-stone-400"
         />
         <button

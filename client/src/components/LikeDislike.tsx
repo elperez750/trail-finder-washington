@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { ThumbsUp, ThumbsDown } from 'lucide-react'
 
 interface LikeDislikeStaticProps {
@@ -6,34 +6,64 @@ interface LikeDislikeStaticProps {
   dislikes: number
 }
 
+type UserActionType = 'like' | 'dislike' | null;
+
+
 const LikeDislikeStatic: React.FC<LikeDislikeStaticProps> = ({ likes, dislikes }) => {
+  const [like, setLikes] = useState(likes)
+  const [dislike, setDislikes] = useState(dislikes)
+  const [isClicked, setIsClicked] = useState<{like: boolean, dislike: boolean}>({like: false, dislike: false});
+  const [userAction, setUserAction] = useState<UserActionType>(null);
+
+
+  const handleDislike = () => {
+    setDislikes(dislike + 1)
+    setIsClicked({like: false, dislike: true})
+
+    if (userAction === null) {
+      setUserAction('dislike')
+    }
+    else{
+      setLikes(like - 1)
+    }
+  }
+
+
+  const handleLikes = () => {
+    setLikes(like + 1)
+    setIsClicked({dislike: false, like: true})
+    if (userAction === null) {
+      
+      setUserAction('like')
+
+    }
+    else{
+      setDislikes(dislike - 1)
+    }
+    
+  }
+
+
   return (
     <div className="flex items-center space-x-4">
       <button
-        className="flex items-center space-x-1 px-3 py-1 rounded-full bg-stone-100 text-stone-600 hover:bg-emerald-100 transition-colors duration-200"
+      onClick = {handleLikes}
+      disabled = {isClicked.like? true: false}
+        className={`flex items-center space-x-1 px-3 py-1 rounded-full ${isClicked.like? 'bg-emerald-100': 'bg-stone-100'} text-stone-600 hover:bg-emerald-100 transition-colors duration-200`}
       >
         <ThumbsUp className="w-4 h-4" />
-        <span>{likes}</span>
+        <span>{like}</span>
       </button>
       <button
-        className="flex items-center space-x-1 px-3 py-1 rounded-full bg-stone-100 text-stone-600 hover:bg-red-100 transition-colors duration-200"
+        onClick = { handleDislike}
+        disabled = {isClicked.dislike? true: false}
+        className={`flex items-center space-x-1 px-3 py-1 rounded-full ${isClicked.dislike ? 'bg-red-300' : 'bg-stone-100'} text-stone-600 hover:bg-red-300 transition-colors duration-200`}
       >
         <ThumbsDown className="w-4 h-4" />
-        <span>{dislikes}</span>
+        <span>{dislike}</span>
       </button>
     </div>
   )
 }
 
 export default LikeDislikeStatic
-
-// Example usage:
-export function Component() {
-  return (
-    <div className="p-4 bg-white rounded-lg shadow-md">
-      <h2 className="text-lg font-semibold text-emerald-800 mb-2">Trail Comment</h2>
-      <p className="text-stone-700 mb-4">This trail was absolutely beautiful! The views were breathtaking.</p>
-      <LikeDislikeStatic likes={42} dislikes={3} />
-    </div>
-  )
-}
