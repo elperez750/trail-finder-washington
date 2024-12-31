@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, User, LogOut, LogIn } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const { logout, user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -68,7 +69,7 @@ const Navbar = () => {
                 <h1>Sign in for a more personaliazed experience</h1>
                 <button
                   className="flex items-center bg-emerald-700 hover:bg-emerald-600 px-3 py-2 rounded transition-colors"
-                  onClick={() => navigate("/login")}
+                  onClick={() => navigate("/login", { state: { from: location } })}
                 >
                   <LogIn className="w-5 h-5 mr-1" />
                   Log In
@@ -76,7 +77,7 @@ const Navbar = () => {
               </div>
             )}
           </div>
-
+        
           <button className="md:hidden" onClick={toggleMenu}>
             {isMenuOpen ? (
               <X className="w-6 h-6" />
@@ -131,9 +132,11 @@ const Navbar = () => {
             ): (
               <button
                 className="flex items-center bg-emerald-700 hover:bg-emerald-600 px-3 py-2 rounded transition-colors"
-                onClick={() => navigate("/login")}
+                onClick={() => navigate("/login", { state: { from: location.pathname } })}
               >
+
                 <LogIn className="w-5 h-5 mr-1" />
+                
                 Log In
               </button>
             )}

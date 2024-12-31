@@ -5,7 +5,6 @@ const fetchTrailDetails = require('../getTrailDetails');
 
 const trailsRouter = Router();
 
-
 const getRandomTrail = async () => {
     try{
         const randomTrails = await Hike.aggregate([
@@ -23,6 +22,21 @@ const getRandomTrail = async () => {
 }
 
 
+trailsRouter.get('/trail-by-id', async(req, res) => {
+    const { id } = req.query;
+    if (!id) {
+        return res.status(400).json({ error: 'Trail id is required' });
+      }
+
+    try {
+        hike = await Hike.findById(id);
+        res.status(200).json(hike);
+    }
+    catch(err){
+        console.error('Error:', err);
+        res.status(500).json({msg: 'Internal Server Error'});
+    }
+})
 
 trailsRouter.get('/individual-trail', async (req, res) => {
     const { link } = req.query

@@ -1,7 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { MapPin, ArrowRight } from 'lucide-react';
 import { Trail } from '../types/trail';
-import axios from "axios";
 
 
 
@@ -9,26 +8,18 @@ const TrailCard = ({ trail }: { trail: Trail }) => {
 const navigate = useNavigate();
 
   
+const fetchIndividualTrail = async () => {
 
-const fetchIndividualTrail = async (link: string) => {
   try {
-    const response = await axios.get(
-      `http://localhost:8000/api/trails/individual-trail?link=${encodeURIComponent(link)}`,
-      
-    );
-
-    console.log(trail.imageUrl)
-    navigate(`/trail/${trail._id}`, { state: { trailDetails: response.data, name: trail.name, image: trail.imageUrl, length: trail.length, elevationGain: trail.elevation, location_name: trail.location } });
-
-
-    console.log(response.data);
+    navigate(`/trail/${trail._id}`);
    
   } catch (err) {
     console.error("Error fetching individual trail:", err);
-  }
-
-
+  } finally {
+    console.log("Trail fetched");}
 }
+
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg max-w-xs">
       {/* Image Section */}
@@ -85,7 +76,7 @@ const fetchIndividualTrail = async (link: string) => {
           <Link
           
             to={`/trail/${trail._id}`}
-            onClick={() => fetchIndividualTrail(trail.link)}
+            onClick={() => fetchIndividualTrail()}
             className="inline-flex items-center bg-emerald-600 text-white text-xs px-3 py-1 rounded-md hover:bg-emerald-700 transition-colors"
           >
             Details

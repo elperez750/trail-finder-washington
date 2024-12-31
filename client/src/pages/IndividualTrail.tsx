@@ -1,30 +1,77 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { MapPin, Mountain, AlertTriangle, ArrowLeft } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { LatLngExpression } from "leaflet";
+import axios from "axios";
 import "leaflet/dist/leaflet.css";
-import Comments  from "../components/Comments";
+import Comments from "../components/Comments";
+
+interface TrailDetails {
+  name: string;
+  latitude: number;
+  longitude: number;
+  image: string;
+  length: string;
+  elevationGain: string;
+  difficulty: string;
+  location_name: string;
+  paragraphs: string[];
+  beforeYouGo: { text: string; href?: string }[];
+}
 
 const IndividualTrailPage: React.FC = () => {
-  const location = useLocation();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(false);
+  const { id } = useParams<{ id: string }>();
+  const [trailDetails, setTrailDetails] = useState<TrailDetails>();
 
-  
-  const trailDetails = location.state?.trailDetails;
-  const center: LatLngExpression = [trailDetails?.latitude, trailDetails?.longitude];
-  const name = location.state?.name;
-  const image = location.state?.image;
-  const length = location.state?.length;
-  const elevationGain = location.state?.elevationGain;
-  const location_name = location.state?.location_name;
+  const fetchTrailDetails = async () => {
+    setLoading(true);
+    try {
+      const trailResponse = await axios.get(
+        `http://localhost:8000/api/trails/trail-by-id?id=${id}`
+      );
+      const trailLink = trailResponse.data.link;
+      const location = trailResponse.data.location;
+      const image = trailResponse.data.imageUrl;
+      const length = trailResponse.data.length;
+      const elevationGain = trailResponse.data.elevation;
 
+      let detailsResponse = await axios.get(
+        `http://localhost:8000/api/trails/individual-trail?link=${encodeURIComponent(
+          trailLink
+        )}`
+      );
 
-  useEffect(() => {
-    if (trailDetails) {
+      detailsResponse.data.image = image;
+      detailsResponse.data.location_name = location;
+      detailsResponse.data.length = length;
+      detailsResponse.data.elevationGain = elevationGain;
+      setTrailDetails(detailsResponse.data);
+    } catch (err) {
+      console.error("Error fetching individual trail:", err);
+    } finally {
       setLoading(false);
     }
-  }, [trailDetails]);
+  };
+
+  useEffect(() => {
+    fetchTrailDetails();
+  }, []);
+
+  const {
+    name,
+    image,
+    length,
+    elevationGain,
+    difficulty,
+    location_name,
+    latitude,
+    longitude,
+    paragraphs,
+    beforeYouGo,
+  } = trailDetails || {};
+  const center: LatLngExpression = [latitude || 0, longitude || 0];
 
   if (loading) {
     return (
@@ -59,7 +106,12 @@ const IndividualTrailPage: React.FC = () => {
     <MapContainer
       center={center}
       zoom={13}
-      style={{ height: "400px", width: "100%", borderRadius: "0.5rem", marginTop: "2rem" }}
+      style={{
+        height: "400px",
+        width: "100%",
+        borderRadius: "0.5rem",
+        marginTop: "2rem",
+      }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -85,7 +137,7 @@ const IndividualTrailPage: React.FC = () => {
             </div>
             <div className="p-6 md:w-2/3 md:p-8">
               <h1 className="text-3xl font-bold text-emerald-800 mb-2">
-                {trailDetails.name}
+                {name}
               </h1>
               <div className="flex items-center text-stone-600 mb-4">
                 <MapPin className="w-6 h-6 mr-2" />
@@ -96,7 +148,7 @@ const IndividualTrailPage: React.FC = () => {
                 <div className="flex items-center">
                   <Mountain className="w-6 h-6 text-emerald-600 mr-2" />
                   <span className="text-sm font-semibold text-stone-800">
-                    Difficulty: {trailDetails.difficulty}
+                    Difficulty: {difficulty}
                   </span>
                 </div>
                 <div className="text-stone-600 whitespace-nowrap text-sm">
@@ -109,13 +161,11 @@ const IndividualTrailPage: React.FC = () => {
 
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <div className="space-y-6">
-            {trailDetails.paragraphs?.map(
-              (paragraph: string, index: number) => (
-                <p key={index} className="text-stone-700 leading-relaxed">
-                  {paragraph}
-                </p>
-              )
-            )}
+            {paragraphs?.map((paragraph: string, index: number) => (
+              <p key={index} className="text-stone-700 leading-relaxed">
+                {paragraph}
+              </p>
+            ))}
           </div>
         </div>
 
@@ -124,7 +174,7 @@ const IndividualTrailPage: React.FC = () => {
             Before You Go
           </h2>
           <ul className="space-y-3">
-            {trailDetails.beforeYouGo?.map(
+            {beforeYouGo?.map(
               (item: { text: string; href?: string }, index: number) => {
                 if (!item.text?.trim()) {
                   return null; // Skip rendering if the text is empty
@@ -149,9 +199,7 @@ const IndividualTrailPage: React.FC = () => {
           </ul>
         </div>
 
-
         <Map />
-
 
         <Comments />
 

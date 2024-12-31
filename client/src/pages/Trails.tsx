@@ -88,7 +88,11 @@ const Trails: React.FC = () => {
         <h1 className="text-4xl sm:text-5xl mb-6 text-emerald-800 font-bold text-center mt-8">
           Discover Trails
         </h1>
-        {trails.length == 0 ? (
+        {isLoading ? (
+          <div className="flex justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+          </div>
+        ) : trails.length == 0 ? (
           <NoTrailsFound />
         ) : (
           <>
