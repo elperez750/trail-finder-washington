@@ -2,8 +2,10 @@ const cors = require('cors');
 require('dotenv').config();
 const trailsRouter = require('./routes/trailsRoute');
 const authRouter = require('./routes/authRoute');
+const commentsRouter = require('./routes/commentsRoute');
 const connectDB = require('./database');
 const express = require('express');
+const { constants } = require('fs');
 
 // Initialize Express App
 const app = express();
@@ -25,6 +27,7 @@ app.use('/api', apiRouter);
 
 apiRouter.use('/trails', trailsRouter);
 apiRouter.use('/auth', authRouter);
+apiRouter.use('/comments', commentsRouter);
 
 // Helper Function to Save to Database
 

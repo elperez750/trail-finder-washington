@@ -62,7 +62,6 @@ trailsRouter.get('/individual-trail', async (req, res) => {
 
 trailsRouter.get('/random-trails', async (req, res) => {
 
-
     try{
         trails = await getRandomTrail();
         res.status(200).json(trails);

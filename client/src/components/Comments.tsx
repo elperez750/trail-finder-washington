@@ -1,70 +1,81 @@
 import React, { useState, useEffect } from "react";
 import Button from "./Button";
-import LikeDislikeStatic from "./LikeDislike";
+import LikeDislike from "./LikeDislike";
 import { useAuth } from "../context/AuthContext";
 import SignInToView from "./SignInToView";
+import axios from "axios";
 
 type CommentType = {
-  name: string;
+  _id: string;
+  username: string;
   avatar: string;
-  comment: string;
+  content: string;
   likes: number;
   dislikes: number;
 };
 
+type CommentsProps = {
+  trailId: string;
+};
 
-const Comments = () => {
+const Comments = ({ trailId }: CommentsProps) => {
   const { user } = useAuth();
-
-  const initialComments: CommentType[] = [
-    {
-      name: "Arnold Ngyuen",
-      avatar: "https://randomuser.me/api/portraits/men/10.jpg",
-      comment: "This trail was amazing!",
-      likes: 42,
-      dislikes: 3,
-    },
-    {
-      name: "Katie Johnson",
-      avatar: "https://randomuser.me/api/portraits/women/20.jpg",
-      comment: "I loved the views on this trail!",
-      likes: 32,
-      dislikes: 1,
-    },
-    {
-      name: "John Doe",
-      avatar: "https://randomuser.me/api/portraits/men/15.jpg",
-      comment: "This trail was a bit too difficult for me.",
-      likes: 12,
-      dislikes: 7,
-    },
-  ];
-
-  const [comments, setComments] = useState<CommentType[]>(initialComments);
+  
+  const [comments, setComments] = useState<CommentType[]>([]);
   const [commentBody, setCommentBody] = useState<string>("");
 
-  useEffect(() => {
-    console.log("Current comments:", comments);
-  }, [comments]);
+  // Fetch comments from the server
+  
+  const fetchComments = async () => {
+    try {
+      const hikeComments = await axios.get(
+        `http://localhost:8000/api/comments/comments-by-hike?hikeId=${trailId}`
+      );
+      setComments(hikeComments.data);
+    } catch (err) {
+      console.error("Error fetching comments:", err);
+    }
 
-  const handleNewComment = (e: React.FormEvent<HTMLFormElement>) => {
+
+  }
+
+
+  useEffect(() => {
+    fetchComments();
+  }, []);
+  
+
+
+  // Handle adding a new comment
+  const handleNewComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!commentBody.trim()) {
       alert("Please enter a comment before submitting.");
       return;
     }
 
-    const newComment: CommentType = {
-      name: user?.name || "Anonymous",
-      avatar: "https://randomuser.me/api/portraits/lego/1.jpg", // Default avatar
-      comment: commentBody,
-      likes: 0,
-      dislikes: 0,
-    };
+    try {
+      const response = await axios.post<CommentType>("http://localhost:8000/api/comments/add-comment", {
+        hikeId: trailId,
+        userId: user?.id,
+        username: user?.name || "Anonymous",
+        content: commentBody
 
-    setComments((prev) => [...prev, newComment]);
-    setCommentBody("");
-  };
+      });
+      const newComment = response.data;
+      setComments([...comments, newComment]);
+      setCommentBody("");
+    
+
+
+      
+    }
+    catch (err) {
+      console.error("Error adding comment:", err);
+    }
+
+  }
+  
 
   const date = new Date().toLocaleDateString();
 
@@ -80,7 +91,7 @@ const Comments = () => {
               {/* User Avatar */}
               <div>
                 <img
-                  src={"https://randomuser.me/api/portraits/lego/2.jpg"}
+                  src="https://randomuser.me/api/portraits/lego/2.jpg"
                   className="w-10 h-10 rounded-full bg-gray-950"
                   alt={user?.name || "User"}
                 />
@@ -97,8 +108,7 @@ const Comments = () => {
                   rows={3}
                 />
                 <div className="flex mt-2">
-                  
-                <Button text="Add Comment" />
+                  <Button text="Add Comment" />
                 </div>
               </div>
             </div>
@@ -106,35 +116,42 @@ const Comments = () => {
 
           {/* List of Comments */}
           <div className="mt-10 space-y-4">
-            {comments.map((comment, index) => (
-              <div
-                key={`${comment.name}-${index}`}
-                className="flex items-start space-x-3 p-4 border bg-stone-50 rounded-lg shadow-md"
-              >
-                {/* Comment Avatar */}
-                <img
-                  src={comment.avatar}
-                  className="w-10 h-10 rounded-full bg-gray-950"
-                  alt={comment.name}
-                />
-                <div className="flex flex-col flex-grow">
-                  <div className="flex items-center justify-between">
-                    {/* Commenter Name and Date */}
-                    <span className="font-semibold">{comment.name}</span>
-                    <span className="text-sm text-gray-500">{date}</span>
+            {comments.length > 0 ? (
+              comments.map((comment, index) => (
+                <div
+                  key={`${comment.username}-${index}`}
+                  className="flex items-start space-x-3 p-4 border bg-stone-50 rounded-lg shadow-md"
+                >
+                  {/* Comment Avatar */}
+                  <img
+                    src={comment.avatar}
+                    className="w-10 h-10 rounded-full bg-gray-950"
+                    alt={comment.username}
+                  />
+                  <div className="flex flex-col flex-grow">
+                    <div className="flex items-center justify-between">
+                      {/* Commenter Name and Date */}
+                      <span className="font-semibold">{comment.username}</span>
+                      <span className="text-sm text-gray-500">{date}</span>
+                    </div>
+                    {/* Comment Body */}
+                    <p className="text-gray-800">{comment.content}</p>
+                    {/* Like/Dislike */}
+                    <LikeDislike
+                      
+                      comment={comment}
+                    />
                   </div>
-                  {/* Comment Body */}
-                  <p className="text-gray-800">{comment.comment}</p>
-                  {/* Like/Dislike */}
-                  <LikeDislikeStatic likes={comment.likes} dislikes={comment.dislikes} />
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p>No comments yet. Be the first to comment!</p>
+            )}
           </div>
         </>
       ) : (
         <div className="flex flex-col items-center">
-        <SignInToView />
+          <SignInToView />
         </div>
       )}
     </div>

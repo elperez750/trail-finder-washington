@@ -201,7 +201,7 @@ const IndividualTrailPage: React.FC = () => {
 
         <Map />
 
-        <Comments />
+        {id && <Comments trailId={id} />}
 
         <div className="mt-8">
           <Link
