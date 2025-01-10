@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { ThumbsUp, ThumbsDown } from "lucide-react";
+import { CommentType } from "../api/Comment";
 import axios from "axios";
 
-type CommentType = {
-  _id: string;
-  username: string;
-  avatar: string;
-  content: string;
-  likes: number;
-  dislikes: number;
-};
 
 interface LikeDislikeStaticProps {
   comment: CommentType;
@@ -18,9 +11,9 @@ interface LikeDislikeStaticProps {
 type UserActionType = "like" | "dislike" | null;
 
 const LikeDislike: React.FC<LikeDislikeStaticProps> = ({ comment }) => {
-  const [like, setLikes] = useState(comment.likes);
-  const [dislike, setDislikes] = useState(comment.dislikes);
-  
+  const [like, setLikes] = useState<number>(comment.likes);
+  const [dislike, setDislikes] = useState<number>(comment.dislikes);
+
   const [userAction, setUserAction] = useState<UserActionType>(null);
 
   const handleDislike = async () => {
@@ -28,9 +21,10 @@ const LikeDislike: React.FC<LikeDislikeStaticProps> = ({ comment }) => {
       const response = await axios.patch(
         `http://localhost:8000/api/comments/update-dislike?commentId=${comment._id}&userAction=${userAction}`
       );
+
       const newDislikeCount = response.data.dislikes;
       const newLikeCount = response.data.likes;
-   
+
       setDislikes(newDislikeCount); //Dislikes + 1
       setLikes(newLikeCount); //Likes - 1
 
@@ -45,11 +39,11 @@ const LikeDislike: React.FC<LikeDislikeStaticProps> = ({ comment }) => {
   const handleLikes = async () => {
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/comments/update-like?commentId=${comment._id}&userAction=${userAction}`
+        `http://localhost:8000/api/comments/update-like?commentId=${comment?._id}&userAction=${userAction}`
       );
       const newLikeCount = response.data.likes;
       const newDislikeCount = response.data.dislikes;
-   
+
       setLikes(newLikeCount); //Likes + 1
       setDislikes(newDislikeCount); //Dislikes - 1
       if (userAction === null || userAction === "dislike") {
@@ -65,7 +59,7 @@ const LikeDislike: React.FC<LikeDislikeStaticProps> = ({ comment }) => {
   }, [like, dislike]); // Runs whenever likes or dislikes change
 
   return (
-    <div className="flex items-center space-x-4">
+    <div className="flex items-center space-x-4 mt-2">
       <button
         onClick={handleLikes}
         disabled={userAction === "like" ? true : false}
