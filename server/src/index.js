@@ -5,7 +5,6 @@ const authRouter = require('./routes/authRoute');
 const commentsRouter = require('./routes/commentsRoute');
 const connectDB = require('./database');
 const express = require('express');
-const { constants } = require('fs');
 
 // Initialize Express App
 const app = express();
@@ -18,7 +17,7 @@ app.use(cors());
 
 // Root Route
 app.get('/', (req, res) => {
-    res.send("Hello, TypeScript with Express");
+    res.send('Hello, Express Server');
 });
 
 // API Router
@@ -29,12 +28,12 @@ apiRouter.use('/trails', trailsRouter);
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/comments', commentsRouter);
 
-// Helper Function to Save to Database
+// Export the app for serverless deployment
+module.exports = app;
 
-
-// Start the Server
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
-
-module.exports = apiRouter;
+// Start the server locally if not in serverless mode
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
