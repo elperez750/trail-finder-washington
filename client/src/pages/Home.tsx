@@ -1,19 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import TrailCard from '../components/TrailCard'
 import axios from 'axios'
+import { Trail } from '../types/trail'
 
-interface Trail {
-  id: number;
-  name: string;
-  description: string;
-  elevation: string
-  highestPoint: string;
-  imageUrl: string;
-  length: string;
-  link: string;
-  location: string;
-}
+
 
 const HomePage = () => {
   const [trails, setTrails] = useState<Trail[]>([]);  // State to store trails
@@ -50,7 +40,7 @@ const HomePage = () => {
           <div className="flex justify-center">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl">
               {trails.map((trail) => (
-                <div key={trail.id} className="flex justify-center">
+                <div key={trail._id} className="flex justify-center">
                   <TrailCard trail={trail} />
                 </div>
               ))}

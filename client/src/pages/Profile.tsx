@@ -1,4 +1,4 @@
-import { User, Mail, Edit } from 'lucide-react'
+import { User, Mail } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 const Profile = () => {
