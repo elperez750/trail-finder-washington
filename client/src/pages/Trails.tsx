@@ -5,6 +5,7 @@ import TrailCard from "../components/TrailCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import NoTrailsFound from "../components/NoTrailsFound";
 import { Trail } from "../types/trail";
+import { BASE_URL } from "../api/services";
 
 
 const Trails: React.FC = () => {
@@ -20,7 +21,7 @@ const Trails: React.FC = () => {
     setIsLoading(true);
     try {
       const response = await axios.get<{ trails: Trail[]; totalPages: number }>(
-        `http://localhost:8000/api/trails/filtered-trails?name=${searchQuery}&length=${length}&page=${currentPage}`
+        `${BASE_URL}/trails/filtered-trails?name=${searchQuery}&length=${length}&page=${currentPage}`
       );
 
       setTrails(response.data.trails);

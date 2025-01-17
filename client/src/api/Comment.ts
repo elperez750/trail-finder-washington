@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BASE_URL } from "./services";
 
 
 //Type of comment. _id, userId, likes, dislikes, createdAt are not passed by the user.
@@ -22,7 +23,7 @@ export interface CommentType extends NewCommentType {
 export const fetchCommentsByTrailId = async (trailId: string) => {
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/comments/comments-by-hike?hikeId=${trailId}`
+      `${BASE_URL}/comments/comments-by-hike?hikeId=${trailId}`
     );
     return response.data;
   } catch (err) {
@@ -35,7 +36,7 @@ export const fetchCommentsByTrailId = async (trailId: string) => {
 
 export const postNewComment = async ({ hikeId, userId, username, content }: NewCommentType) => {
   try {
-    const response = await axios.post(`http://localhost:8000/api/comments/add-comment`, {
+    const response = await axios.post(`${BASE_URL}/comments/add-comment`, {
       hikeId,
       userId,
       username,
@@ -53,7 +54,7 @@ export const postNewComment = async ({ hikeId, userId, username, content }: NewC
 export const deleteComment = async (commentId: string) => {
   try {
     const response = await axios.delete(
-      `http://localhost:8000/api/comments/delete-comment?commentId=${commentId}`
+      `${BASE_URL}comments/delete-comment?commentId=${commentId}`
     );
     console.log("Comment deleted:", response.data);
     return response.data;
