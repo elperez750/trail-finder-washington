@@ -5,7 +5,7 @@ import TrailCard from "../components/TrailCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import NoTrailsFound from "../components/NoTrailsFound";
 import { Trail } from "../types/trail";
-import { BASE_URL } from "../api/services";
+import { BASE_URL } from "../api/services"
 
 
 const Trails: React.FC = () => {
