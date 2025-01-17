@@ -13,7 +13,11 @@ const PORT = process.env.PORT || 8000;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:5173', 'https://trail-finder-washington-client.vercel.app/trails'], // Add your frontend origins here
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow the necessary HTTP methods
+    credentials: true // Allow cookies or other credentials if needed
+}));
 
 // Root Route
 app.get('/', (req, res) => {
