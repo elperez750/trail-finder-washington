@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ThumbsUp, ThumbsDown } from "lucide-react";
 import { CommentType } from "../api/Comment";
 import axios from "axios";
-import { BASE_URL } from "../api/services";
+import { BASE_URL } from "../api/services"
 
 
 interface LikeDislikeStaticProps {
