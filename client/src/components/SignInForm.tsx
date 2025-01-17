@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { BASE_URL } from '../api/services';
+import { BASE_URL } from '../api/services'
 
 const SignInForm: React.FC = () => {
   const {login} = useAuth();

@@ -39,7 +39,7 @@ const IndividualTrailPage: React.FC = () => {
       const elevationGain = trailResponse.data.elevation;
 
       let detailsResponse = await axios.get(
-        `http://localhost:8000/api/trails/individual-trail?link=${encodeURIComponent(
+        `${BASE_URL}/trails/individual-trail?link=${encodeURIComponent(
           trailLink
         )}`
       );
