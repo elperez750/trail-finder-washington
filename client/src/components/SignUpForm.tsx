@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { BASE_URL } from "../api/services";
+import { BASE_URL } from "../api/services"
 
 const SignUpForm: React.FC = () => {
   const navigate = useNavigate();
