@@ -1,9 +1,9 @@
 const cors = require('cors');
 require('dotenv').config();
-const trailsRouter = require('./routes/trailsRoute');
-const authRouter = require('./routes/authRoute');
-const commentsRouter = require('./routes/commentsRoute');
-const connectDB = require('./database');
+const trailsRouter = require('./src/routes/trailsRoute');
+const authRouter = require('./src/routes/authRoute');
+const commentsRouter = require('./src/routes/commentsRoute');
+const connectDB = require('./src/database');
 const express = require('express');
 
 // Initialize Express App
