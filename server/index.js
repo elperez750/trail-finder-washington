@@ -15,22 +15,23 @@ connectDB();
 
 //Cors setup
 const allowedOrigins = [
-    'http://localhost:5173', // For local development
-    'https://trail-finder-washington-client-554bnl8xf-elperez750s-projects.vercel.app', // Current frontend
+    'http://localhost:5173', // Local development
+    'https://trail-finder-washington-client-554bnl8xf-elperez750s-projects.vercel.app', // Deployed frontend
     'https://trail-finder-washington-client.vercel.app',
-    'https://trail-finder-washington-client-5lyaeutap-elperez750s-projects.vercel.app'
+    'https://trail-finder-washington-client-5lyaeutap-elperez750s-projects.vercel.app',
 ];
 
 app.use(cors({
     origin: (origin, callback) => {
         if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
+            callback(null, true); // Allow request
         } else {
-            callback(new Error('Not allowed by CORS'));
+            console.error(`Blocked by CORS: ${origin}`); // Debug blocked origins
+            callback(new Error('Not allowed by CORS')); // Block request
         }
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
+    credentials: true, // Allow cookies/credentials
 }));
 
 // Manually set headers (if needed)
