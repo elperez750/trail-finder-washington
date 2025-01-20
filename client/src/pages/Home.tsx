@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import TrailCard from '../components/TrailCard'
 import axios from 'axios'
 import { Trail } from '../types/trail'
-import { BASE_URL } from '../api/services'
+import BASE_URL  from '../api/services'
 
 
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from "./services"
+import BASE_URL from "./services"
 
 
 //Type of comment. _id, userId, likes, dislikes, createdAt are not passed by the user.

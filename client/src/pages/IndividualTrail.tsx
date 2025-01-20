@@ -6,7 +6,7 @@ import { LatLngExpression } from "leaflet";
 import axios from "axios";
 import "leaflet/dist/leaflet.css";
 import Comments from "../components/Comments";
-import { BASE_URL } from "../api/services";
+import BASE_URL from "../api/services";
 
 interface TrailDetails {
   name: string;
