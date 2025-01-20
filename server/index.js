@@ -17,7 +17,8 @@ connectDB();
 const allowedOrigins = [
     'http://localhost:5173', // For local development
     'https://trail-finder-washington-client-554bnl8xf-elperez750s-projects.vercel.app', // Current frontend
-    'https://trail-finder-washington-client.vercel.app' // Production frontend
+    'https://trail-finder-washington-client.vercel.app',
+    'https://trail-finder-washington-client-5lyaeutap-elperez750s-projects.vercel.app'
 ];
 
 app.use(cors({
