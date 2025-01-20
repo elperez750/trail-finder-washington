@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import TrailCard from '../components/TrailCard'
 import axios from 'axios'
 import { Trail } from '../types/trail'
-import { BASE_URL } from '../api/services'
 
 
 
@@ -12,7 +11,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchTrails = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/trails/random-trails`);  // Axios GET request
+        const response = await axios.get(`api/trails/random-trails`);  // Axios GET request
         setTrails(response.data);  // Update state with fetched data
       } catch (err: any) {
         console.error('Error fetching trails:', err);
