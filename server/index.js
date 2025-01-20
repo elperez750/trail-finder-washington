@@ -12,11 +12,24 @@ const app = express();
 // Database connection
 connectDB();
 
-// CORS Middleware
+
+//Cors setup
+const allowedOrigins = [
+    'http://localhost:5173', // For local development
+    'https://trail-finder-washington-client-554bnl8xf-elperez750s-projects.vercel.app', // Current frontend
+    'https://trail-finder-washington-client.vercel.app' // Production frontend
+];
+
 app.use(cors({
-    origin: 'https://trail-finder-washington-client.vercel.app', // Allow requests from your frontend
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these HTTP methods
-    credentials: true, // Allow cookies or authentication headers
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
 }));
 
 // Manually set headers (if needed)
