@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ThumbsUp, ThumbsDown } from "lucide-react";
 import { CommentType } from "../api/Comment";
 import axios from "axios";
+import { BASE_URL } from "../api/services";
 
 
 interface LikeDislikeStaticProps {
@@ -19,7 +20,7 @@ const LikeDislike: React.FC<LikeDislikeStaticProps> = ({ comment }) => {
   const handleDislike = async () => {
     try {
       const response = await axios.patch(
-        `api/comments/update-dislike?commentId=${comment._id}&userAction=${userAction}`
+        `${BASE_URL}/comments/update-dislike?commentId=${comment._id}&userAction=${userAction}`
       );
 
       const newDislikeCount = response.data.dislikes;
@@ -39,7 +40,7 @@ const LikeDislike: React.FC<LikeDislikeStaticProps> = ({ comment }) => {
   const handleLikes = async () => {
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/comments/update-like?commentId=${comment?._id}&userAction=${userAction}`
+        `${BASE_URL}/comments/update-like?commentId=${comment?._id}&userAction=${userAction}`
       );
       const newLikeCount = response.data.likes;
       const newDislikeCount = response.data.dislikes;
