@@ -3,8 +3,8 @@ const express = require('express');
 require('dotenv').config();
 
 const trailsRouter = require('./src/routes/trailsRoute');
-const authRouter = require('.src/routes/authRoute');
-const commentsRouter = require('.src/routes/commentsRoute');
+const authRouter = require('./src/routes/authRoute');
+const commentsRouter = require('./src/routes/commentsRoute');
 const connectDB = require('./src/database');
 
 const app = express();
