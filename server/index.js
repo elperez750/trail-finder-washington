@@ -13,8 +13,13 @@ const app = express();
 connectDB();
 
 
-//Cors setup
-app.use(cors());
+//Cors setup\
+const corsOptions ={
+    origin:'https://trail-finder-washington-client.vercel.app/', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 
 
 // Middleware
