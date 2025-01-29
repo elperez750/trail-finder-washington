@@ -15,12 +15,9 @@ connectDB();
 
 //Cors setup\
 
-const corsOptions = {
-    origin: ["https://trail-finder-washington-client.vercel.app"],
-    credentials: true,
-};
 
-app.use(cors(corsOptions));
+
+app.use(cors());
 
 // Middleware
 app.use(express.json());
