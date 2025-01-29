@@ -13,9 +13,7 @@ const app = express();
 
 connectDB();
 
-//Cors setup\
-
-
+//Cors setup
 
 app.use(cors());
 
