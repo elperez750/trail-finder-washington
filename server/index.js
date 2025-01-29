@@ -15,7 +15,13 @@ connectDB();
 
 //Cors setup
 
-app.use(cors());
+app.use(cors(
+    {
+        origin: "https://trail-finder-washington-client.vercel.app",
+        methods: "GET, POST, PUT, DELETE",
+        credentials: true
+    }
+));
 
 // Middleware
 app.use(express.json());
