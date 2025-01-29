@@ -29,7 +29,7 @@ trailsRouter.get('/trail-by-id', async(req, res) => {
       }
 
     try {
-        hike = await Hike.findById(id);
+        const hike = await Hike.findById(id);
         res.status(200).json(hike);
     }
     catch(err){
