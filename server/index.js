@@ -17,7 +17,7 @@ connectDB();
 
 const allowedOrigins = [
     "https://trail-finder-washington-client.vercel.app",
-    "https://localhost:5173" // Allow local development
+    "http://localhost:5173" // Allow local development
 ];
 
 app.use(cors({
@@ -31,6 +31,9 @@ app.use(cors({
     methods: "GET, POST, PUT, DELETE, OPTIONS",
     allowedHeaders: "Content-Type, Authorization"
 }));
+
+app.options('*', cors());
+
 
 
 
