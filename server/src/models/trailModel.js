@@ -1,4 +1,3 @@
-const { link } = require('fs');
 const mongoose = require('mongoose');
 const hikeSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -12,6 +11,6 @@ const hikeSchema = new mongoose.Schema({
     convertedLength: { type: Number },
    
     
-});
+}, {collection: "hikes"});
 
 module.exports = mongoose.model('Hike', hikeSchema);

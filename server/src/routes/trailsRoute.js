@@ -11,6 +11,7 @@ const getRandomTrail = async () => {
             { $match: { length: { $exists: true, $ne: "" } } },
             { $sample: { size: 12 } }
         ]);
+        console.log(randomTrails)
         return randomTrails;
     } catch (err) {
         console.error('Error getting random trails:', err.stack);
@@ -46,8 +47,10 @@ trailsRouter.get('/individual-trail', async (req, res) => {
 });
 
 trailsRouter.get('/random-trails', async (req, res) => {
+    console.log("Random Trails")
     try {
         const trails = await getRandomTrail();
+        console.log(trails)
         res.status(200).json(trails);
     } catch (err) {
         console.error('Error fetching random trails:', err.stack);

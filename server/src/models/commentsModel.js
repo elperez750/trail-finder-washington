@@ -8,6 +8,6 @@ const commentsSchema = new mongoose.Schema({
     likes: { type: Number, default:0 },
     dislikes: { type: Number, default: 0 },
 
-});
+}, {collection: "comments"});
 
 module.exports = mongoose.model('Comment', commentsSchema);

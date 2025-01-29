@@ -11,7 +11,9 @@ const HomePage = () => {
   useEffect(() => {
     const fetchTrails = async () => {
       try {
+        console.log(import.meta.env.VITE_REACT_APP_BACKEND_BASEURL)
         const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/trails/random-trails`);  // Axios GET request
+        console.log(response.data)
         setTrails(response.data);  // Update state with fetched data
       } catch (err: any) {
         console.error('Error fetching trails:', err);

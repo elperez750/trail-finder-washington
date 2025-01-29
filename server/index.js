@@ -10,39 +10,19 @@ const connectDB = require('./src/database');
 const app = express();
 
 // Database connection
-connectDB();
 
+connectDB();
 
 //Cors setup\
 
-const allowedOrigins = [
-    "https://trail-finder-washington-client.vercel.app",
-    "http://localhost:5173" // Allow local development
-];
-
-app.use(cors({
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    methods: "GET, POST, PUT, DELETE, OPTIONS",
-    allowedHeaders: "Content-Type, Authorization"
-}));
-
-app.options('*', cors());
-
-
-
+app.use(cors())
 
 // Middleware
 app.use(express.json());
 
 // Root route
 app.get('/', (req, res) => {
-    res.send('Hello, Express Server');
+    res.send('Hello, There');
 });
 
 // API Routes
@@ -58,4 +38,5 @@ app.use((err, req, res, next) => {
 
 // Start the server
 const PORT = process.env.PORT || 8000;
+console.log(PORT)
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
