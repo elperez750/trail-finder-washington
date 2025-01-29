@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import BASE_URL from "../api/services";
 
 const SignUpForm: React.FC = () => {
   const navigate = useNavigate();
@@ -31,7 +30,7 @@ const SignUpForm: React.FC = () => {
     }
 
     try {
-      const response = await axios.post(`${BASE_URL}/auth/register`, {
+      const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/auth/register`, {
         name,
         email,
         password,

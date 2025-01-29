@@ -6,7 +6,6 @@ import { LatLngExpression } from "leaflet";
 import axios from "axios";
 import "leaflet/dist/leaflet.css";
 import Comments from "../components/Comments";
-import BASE_URL from "../api/services";
 
 interface TrailDetails {
   name: string;
@@ -30,7 +29,7 @@ const IndividualTrailPage: React.FC = () => {
     setLoading(true);
     try {
       const trailResponse = await axios.get(
-        `${BASE_URL}/trails/trail-by-id?id=${id}`
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/trails/trail-by-id?id=${id}`
       );
       const trailLink = trailResponse.data.link;
       const location = trailResponse.data.location;
@@ -39,7 +38,7 @@ const IndividualTrailPage: React.FC = () => {
       const elevationGain = trailResponse.data.elevation;
 
       let detailsResponse = await axios.get(
-        `${BASE_URL}/trails/individual-trail?link=${encodeURIComponent(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/trails/individual-trail?link=${encodeURIComponent(
           trailLink
         )}`
       );

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
-import BASE_URL from '../api/services';
 
 const SignInForm: React.FC = () => {
   const {login} = useAuth();
@@ -19,7 +18,7 @@ const SignInForm: React.FC = () => {
     e.preventDefault()
     // Here you would typically handle the sign-in logic
     try{
-      const response = await axios.post(`${BASE_URL}/auth/login`, { email, password })
+      const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/auth/login`, { email, password })
       const { token, user } = response.data;
       login(token, user)
       const redirectTo = location.state?.from?.pathname || '/';
