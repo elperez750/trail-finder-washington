@@ -1,0 +1,3 @@
+{
+    "rewrites": [{"source": "/api/(.*)", "destination": "https://trail-finder-washington-server.vercel.app/api"}]
+}
