@@ -3,7 +3,6 @@ import { MapPin, ArrowRight } from 'lucide-react';
 import { Trail } from '../types/trail';
 
 
-
 const TrailCard = ({ trail }: { trail: Trail }) => {
 const navigate = useNavigate();
 

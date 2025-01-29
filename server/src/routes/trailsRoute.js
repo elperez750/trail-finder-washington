@@ -36,7 +36,7 @@ trailsRouter.get('/trail-by-id', async (req, res) => {
 trailsRouter.get('/individual-trail', async (req, res) => {
     const { link } = req.query;
     if (!link) return res.status(400).json({ error: 'Trail link is required' });
-
+    
     try {
         const trail = await fetchTrailDetails(link);
         res.status(200).json(trail);
