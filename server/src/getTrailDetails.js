@@ -2,6 +2,21 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const { before } = require('node:test');
 
+
+const proxies = [
+  "45.77.76.132:3128",
+  "81.91.144.127:3128",
+  "103.123.234.142:3128"
+];
+
+const randomProxy = proxies[Math.floor(Math.random() * proxies.length)];
+const [host, port] = randomProxy.split(":");
+
+const agent = {
+  http: `http://${host}:${port}`,
+  https: `http://${host}:${port}`
+};
+
 const fetchTrailDetails = async (url) => {
 
     try {
@@ -9,7 +24,7 @@ const fetchTrailDetails = async (url) => {
 
         const response = await axios.get(url, {
           
-          
+            proxy: agent,
             headers: {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
                 "Referer": "https://www.google.com",
