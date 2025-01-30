@@ -8,11 +8,15 @@ const fetchTrailDetails = async (url) => {
         const response = await axios.get(`http://api.scraperapi.com?api_key=358b93cea2701a4eb06d872d7bcb49e0&url=${url}`, {
   
             
-            headers: {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
-                "Referer": "https://www.google.com",
-                "Accept-Encoding": "gzip, deflate, br"
-            }
+          headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+            "Referer": "https://www.google.com",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Cache-Control": "no-cache",
+            "Pragma": "no-cache",
+            "DNT": "1", // Do Not Track
+            "Upgrade-Insecure-Requests": "1"
+        }
         })
         console.log(response.data)
         const $ = cheerio.load(response.data);
