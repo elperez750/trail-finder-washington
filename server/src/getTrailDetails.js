@@ -3,13 +3,23 @@ const cheerio = require('cheerio');
 const { before } = require('node:test');
 
 const fetchTrailDetails = async (url) => {
+
+
+  const proxies = [
+    { host: '194.233.75.226', port: 3128 },
+    { host: '185.15.172.212', port: 3128 },
+    { host: '178.128.98.83', port: 8080 }
+  ]
+
+
+  const randomProxy = proxies[Math.floor(Math.random() * proxies.length)];
+
     try {
+
+
         const response = await axios.get(url, {
           
-            proxy: {
-                host: '194.233.75.226',  // Free proxy IP
-                port: 3128               // Free proxy port
-            },
+            proxy: randomProxy,
             headers: {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
                 "Referer": "https://www.google.com",
