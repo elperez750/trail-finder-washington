@@ -5,10 +5,9 @@ const cheerio = require('cheerio');
 const fetchTrailDetails = async (url) => {
 
     try {
-        console.log(url)
         const response = await axios.get(`http://api.scraperapi.com?api_key=358b93cea2701a4eb06d872d7bcb49e0&url=${url}`, {
   
-            proxy: agent,
+            
             headers: {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
                 "Referer": "https://www.google.com",
