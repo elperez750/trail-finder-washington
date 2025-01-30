@@ -5,7 +5,7 @@ const cheerio = require('cheerio');
 const fetchTrailDetails = async (url) => {
 
     try {
-        const response = await axios.get(`http://api.scraperapi.com?api_key=358b93cea2701a4eb06d872d7bcb49e0&url=${url}`, {
+        const response = await axios.get(`${url}`, {
   
             
           headers: {
