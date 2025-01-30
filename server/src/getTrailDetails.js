@@ -15,7 +15,7 @@ const fetchTrailDetails = async (url) => {
             "Cache-Control": "no-cache",
             "Pragma": "no-cache",
             "DNT": "1", // Do Not Track
-            "Upgrade-Insecure-Requests": "1"
+            
         }
         })
         console.log(response.data)
