@@ -5,7 +5,7 @@ const cheerio = require('cheerio');
 const fetchTrailDetails = async (url) => {
 
     try {
-
+        console.log(url)
         const response = await axios.get(`http://api.scraperapi.com?api_key=358b93cea2701a4eb06d872d7bcb49e0&url=${url}`, {
   
             proxy: agent,
@@ -15,6 +15,7 @@ const fetchTrailDetails = async (url) => {
                 "Accept-Encoding": "gzip, deflate, br"
             }
         })
+        console.log(response.data)
         const $ = cheerio.load(response.data);
   
       // Extract trail details
