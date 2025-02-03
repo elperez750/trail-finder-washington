@@ -5,14 +5,10 @@ const cheerio = require('cheerio');
 const fetchTrailDetails = async (url) => {
 
     try {
-        const response = await axios.get(url, {
-          proxy: {
-            host: "proxy-server.scraperapi.com",
-            port: 8001,
-            auth: {
-                username: `scraperapi`,
-                password: process.env.SCRAPER_API_KEY
-            }
+        const response = await axios.get("http://api.scraperapi.com", {
+          params: {
+            api_key: process.env.SCRAPER_API_KEY,
+            url: url,
         },
   
             
