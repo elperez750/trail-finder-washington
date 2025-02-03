@@ -10,6 +10,7 @@ const fetchTrailDetails = async (url) => {
             api_key: process.env.SCRAPER_API_KEY,
             url: url,
             render:false,
+            autoparse: true
         },
   
             
@@ -23,6 +24,7 @@ const fetchTrailDetails = async (url) => {
             
         }
         })
+        console.log(response.data)
         const $ = cheerio.load(response.data);
   
       // Extract trail details
