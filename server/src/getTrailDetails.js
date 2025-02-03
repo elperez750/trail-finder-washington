@@ -10,7 +10,7 @@ const fetchTrailDetails = async (url) => {
             host: "proxy-server.scraperapi.com",
             port: 8001,
             auth: {
-                username: `elperez750`,
+                username: `scraperapi`,
                 password: process.env.SCRAPER_API_KEY
             }
         },
