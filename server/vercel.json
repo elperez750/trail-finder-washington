@@ -12,14 +12,5 @@
       "src": "/api/(.*)",
       "dest": "index.js"
     }
-  ],  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "https://trail-finder-washington-client.vercel.app" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS,POST,PUT,DELETE" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
-      ]
-    }
   ]
 }
