@@ -31,6 +31,8 @@ const IndividualTrailPage: React.FC = () => {
       const trailResponse = await axios.get(
         `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/trails/trail-by-id?id=${id}`
       );
+
+
       const trailLink = trailResponse.data.link;
       const location = trailResponse.data.location;
       const image = trailResponse.data.imageUrl;
@@ -47,6 +49,8 @@ const IndividualTrailPage: React.FC = () => {
       detailsResponse.data.location_name = location;
       detailsResponse.data.length = length;
       detailsResponse.data.elevationGain = elevationGain;
+
+      
       setTrailDetails(detailsResponse.data);
     } catch (err) {
       console.error("Error fetching individual trail:", err);

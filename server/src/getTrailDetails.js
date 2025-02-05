@@ -1,9 +1,19 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const TrailDetails = require('./models/traildetailsModel');
 
 
 const fetchTrailDetails = async (url) => {
 
+  const existingTrailDetails = await TrailDetails.findOne({ url: url });
+  if (existingTrailDetails) {
+    console.log("Trail details already exist in the database");
+    return existingTrailDetails;
+  }
+
+
+
+  else{
     try {
         const response = await axios.get("http://api.scraperapi.com", {
           params: {
@@ -24,7 +34,6 @@ const fetchTrailDetails = async (url) => {
             
         }
         })
-        console.log(response.data)
         const $ = cheerio.load(response.data);
   
       // Extract trail details
@@ -35,9 +44,9 @@ const fetchTrailDetails = async (url) => {
         const pass = $('#hike-trailhead-and-map .wta-sidebar-layout__content .alert h4').text().trim()
         const passName = $('#hike-trailhead-and-map .wta-sidebar-layout__content .alert a').text().trim()
         const passLink = $('#hike-trailhead-and-map .wta-sidebar-layout__content .alert a').attr('href')
-
+  
         const passDetails = { pass: pass, passName: passName, passLink: passLink }
-
+  
         
         const paragraphs = []
         const beforeYouGo = []
@@ -45,12 +54,12 @@ const fetchTrailDetails = async (url) => {
         $('#hike-body-text p').each(function () {
             paragraphs.push($(this).text().trim()); // Add the text content of each <p> to the array
         });
-
+  
         $('#hike-trailhead-and-map .wta-sidebar-layout__content p').each(function () {
           const paragraphElement = $(this).text().trim();
           const linkElement = $(this).find('a');
-
-
+  
+  
           if (linkElement.length > 0) {
             const link = linkElement.attr('href');
             beforeYouGo.push({ text: paragraphElement, href: link });
@@ -58,18 +67,26 @@ const fetchTrailDetails = async (url) => {
           else{
             beforeYouGo.push({ text: paragraphElement });
           }
-
+  
         })
         
         
-
-        
-        return { name, difficulty, latitude, longitude, paragraphs, beforeYouGo, passDetails};
-
+  
+        // Save trail details to the database
+        const trailDetails = new TrailDetails({ url, name, difficulty, latitude, longitude, pass, passName, passLink, paragraphs, beforeYouGo});
+        await trailDetails.save();
+  
+        console.log("Trail details saved to the database");
+        return trailDetails;
+  
     } catch (error) {
       console.error(`Error fetching trail details from ${url}:`, error);
       return null;
     }
+
+  }
+  
+
   };
 
 
