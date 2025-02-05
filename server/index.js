@@ -20,7 +20,7 @@ app.use(cors({
         "https://trail-finder-washington-client.vercel.app",
         "http://localhost:5173"
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
 }));
